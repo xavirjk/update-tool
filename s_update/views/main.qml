@@ -1,12 +1,13 @@
 import QtQuick 2.12
 import QtQuick.Window 2.12
+import s_update 1.0
 
 Window {
     width: 400
     height: 200
     visible: true
-    Component.onCompleted: console.log('initiate')
-    title: qsTr("Update Tool")
+    title: masterController.ui_title
+    Component.onCompleted: masterController.ui_update.initiateUpdate()
     Rectangle {
         anchors.fill: parent
         color: 'grey'

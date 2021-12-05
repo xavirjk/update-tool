@@ -20,6 +20,12 @@ LIBS += -L$$PWD/../shadow-builds/s_updateLib/debug -ls_updateLib
 QML_DESIGNER_IMPORT_PATH =
 
 # Default rules for deployment.
+win32 {
+   RC_FILE = updateTool.rc
+}
+
+
 qnx: target.path = /tmp/$${TARGET}/bin
 else: unix:!android: target.path = /opt/$${TARGET}/bin
 !isEmpty(target.path): INSTALLS += target
+
