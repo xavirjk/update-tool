@@ -27,26 +27,33 @@ void S_updateLib::initiateUpdate(){
     const QString currentP = dir->currentPath();
     const QString scalmis = currentP+"/scalmis.exe";
     QFile file(scalmis);
-    qDebug()<<QCoreApplication::arguments();
     if(file.exists()){
         dir->setPath(implementation->scalmis);
-        file.setFileName(dir->path()+"/scalmis.rar");
-        QString zipped;
-        if(file.exists()) zipped = file.fileName();
-        else zipped = dir->path()+"/scalmis.zip";
-        qDebug()<<"exists"<<zipped;
+        file.setFileName(dir->path()+"/scalmis.zip");
+        dir->setPath(dir->currentPath());
+        dir->setPath(QDir::cleanPath(dir->filePath(QStringLiteral(".."))));
         QStringList arguments;
         arguments << "x"; // extract files and directories
         arguments << "-y"; // suppress questions
-        arguments << QDir::toNativeSeparators(zipped);
-        arguments << QDir::toNativeSeparators("C:/Program Files (x86)");
+        arguments << QDir::toNativeSeparators(file.fileName());
+        arguments << QDir::toNativeSeparators(dir->path());
         QProcess *process = new QProcess(this);
         process->start(program, arguments);
         process->waitForFinished(-1);
+
+        if(QCoreApplication::arguments().length() == 2){
+            file.setFileName(currentP+"/_RELEASE");
+            if(!file.open(QIODevice::ReadWrite | QIODevice::Truncate))
+                return;
+            QString ver = QCoreApplication::arguments().at(1);
+            QString vl = '"'+ver.toLocal8Bit()+'"';
+            file.write("VERSION="+vl.toLocal8Bit());
+            file.close();
+        }
         process = new QProcess();
         process->start(scalmis);
     }
-    //emit quitApp();
+    emit quitApp();
 }
 S_updateLib::~S_updateLib(){}
 }}

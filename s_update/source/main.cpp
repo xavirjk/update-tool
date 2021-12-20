@@ -26,8 +26,6 @@ int main(int argc, char *argv[])
 
     qmlRegisterType<s_update::models::S_updateLib>("s_update", 1, 0,"S_updateLib");
 
-    const QStringList args = app.arguments();
-    qDebug()<<args;
     s_update::controllers::MasterController masterController;
     QQmlApplicationEngine engine;
     QObject::connect(&masterController,&s_update::controllers::MasterController::killEngine,&QGuiApplication::quit);
