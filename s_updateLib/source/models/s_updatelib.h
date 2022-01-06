@@ -15,6 +15,7 @@ class S_UPDATELIB_EXPORT S_updateLib: public QObject
 public:
     explicit S_updateLib(QObject *parent = nullptr);
     ~S_updateLib();
+    void unzip() const;
 public slots:
     void initiateUpdate();
 
